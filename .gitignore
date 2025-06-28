@@ -1,5 +1,8 @@
 HELP.md
 target/
+ui/node_modules
+.mvn/
+.claude/
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/

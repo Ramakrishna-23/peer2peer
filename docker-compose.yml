@@ -1,4 +1,44 @@
-version: 3
 services:
-  backend
-  
+  backend:
+    build:
+      context: .
+      dockerfile: backend.Dockerfile
+    container_name: p2p-backend
+    ports:
+      - "8080:8080"
+    networks:
+      - app-network
+    environment:
+      - SPRING_PROFILES_ACTIVE=production
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend.Dockerfile
+    container_name: p2p-frontend
+    ports:
+      - "3000:3000"
+    networks:
+      - app-network
+    environment:
+      - NEXT_PUBLIC_BACKEND_URL=https://filesharing.ramakrishna.tech/api
+    depends_on:
+      - backend
+
+  nginx:
+    image: nginx:alpine
+    container_name: p2p-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - app-network
+    depends_on:
+      - backend
+      - frontend
+
+networks:
+  app-network:
+    driver: bridge
