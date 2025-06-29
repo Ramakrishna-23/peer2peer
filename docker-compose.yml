@@ -24,6 +24,7 @@ services:
       - app-network
     environment:
       - NEXT_PUBLIC_BACKEND_URL=https://filesharing.ramakrishna.tech/api
+      - NODE_ENV=production
     depends_on:
       - backend
 
